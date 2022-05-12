@@ -21,7 +21,7 @@
 			 	"\t//Presets",
 			 	"\tvar lowercaseLetters = new RegExp('^[a-z]*$');",
 				"\tvar uppercaseLetters = new RegExp('^[A-Z]*$');",
-				"\tvar letters = new RegExp('^[a-zA-Z ]*$');",
+				"\tvar words = new RegExp('^[a-zA-Z ]*$');",
 				"\tvar numbers = new RegExp ('^[0-9]/*$');",
 				"\n",
 				"\tvar customRegex = new RegExp('');",
