@@ -23,9 +23,6 @@
 				"\tvar uppercaseLetters = new RegExp('^[A-Z]*$');",
 				"\tvar letters = new RegExp('^[a-zA-Z ]*$');",
 				"\tvar numbers = new RegExp ('^[0-9]/*$');",
-				"\tvar date_yyyy_mm_dd = new RegExp ('^\\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$');",
-				"\tvar nonFormattedPhone = new RegExp ('^(\\+\\d{1,2}\\s)?\\(?\\d{3}\\)?[\\s.-]?\\d{3}[\\s.-]?\\d{4}$');",
-				"\tvar formattedPhone = new RegExp('^(\\+\\d{1,2}\\s)?\\(?\\d{3}\\)?[\\s.-]\\d{3}[\\s.-]\\d{4}$');",
 				"\n",
 				"\tvar customRegex = new RegExp('');",
 				"\n",
@@ -48,9 +45,6 @@
 			// var uppercaseLetters = new RegExp('^[A-Z]*$');
 			// var letters = new RegExp('^[a-zA-Z ]*$');
 			// var numbers = new RegExp ('^[0-9]/*$');
-			// var date_yyyy_mm_dd = new RegExp ('^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$');
-			// var formattedPhone = new RegExp('^(\+\d{1,2}\s)?\(?\d{3}\)?[\s.-]\d{3}[\s.-]\d{4}$');
-			// var nonFormattedPhone = new RegExp ('^(\+\d{1,2}\s)?\(?\d{3}\)?[\s.-]?\d{3}[\s.-]?\d{4}$');
 
 			// var customRegex = new RegExp('');
 
