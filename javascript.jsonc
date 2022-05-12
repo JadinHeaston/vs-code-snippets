@@ -1,0 +1,203 @@
+{
+	// Place your snippets for javascript here. Each snippet is defined under a snippet name and has a prefix, body and 
+	// description. The prefix is what is used to trigger the snippet and the body will be expanded and inserted. Possible variables are:
+	// $1, $2 for tab stops, $0 for the final cursor position, and ${1:label}, ${2:another} for placeholders. Placeholders with the 
+	// same ids are connected.
+	// Example:
+	// "Print to console": {
+	// 	"prefix": "log",
+	// 	"body": [
+	// 		"console.log('$1');",
+	// 		"$2"
+	// 	],
+	// 	"description": "Log output to console"
+	// }
+
+	"jQuery - Restrict Text Input": {
+		"prefix": "jQuery - Restrict Text Input",
+		"body": [
+			"jQuery('${1:element}').on('keypress', function(event)",
+			 "{",
+			 	"\t//Presets",
+			 	"\tvar lowercaseLetters = new RegExp('^[a-z]*$');",
+				"\tvar uppercaseLetters = new RegExp('^[A-Z]*$');",
+				"\tvar letters = new RegExp('^[a-zA-Z ]*$');",
+				"\tvar numbers = new RegExp ('^[0-9]/*$');",
+				"\tvar date_yyyy_mm_dd = new RegExp ('^\\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$');",
+				"\tvar nonFormattedPhone = new RegExp ('^(\\+\\d{1,2}\\s)?\\(?\\d{3}\\)?[\\s.-]?\\d{3}[\\s.-]?\\d{4}$');",
+				"\tvar formattedPhone = new RegExp('^(\\+\\d{1,2}\\s)?\\(?\\d{3}\\)?[\\s.-]\\d{3}[\\s.-]\\d{4}$');",
+				"\n",
+				"\tvar customRegex = new RegExp('');",
+				"\n",
+				"\tvar regex = ${2:template}; //Select a preset from above.",
+				"\n",
+				"\tif (!regex.test(String.fromCharCode(event.charCode))) //Check each key.",
+				"\t{",
+					"\t\tevent.preventDefault();",
+					"\t\treturn false;",
+				"\t}",
+			"});",
+			"$0"
+		],
+		"description": "Limits what a user can enter in a text field."
+		//Output:
+		// jQuery('element').on('keypress', function(event)
+		// {
+			// //Presets
+			// var lowercaseLetters = new RegExp('^[a-z]*$');
+			// var uppercaseLetters = new RegExp('^[A-Z]*$');
+			// var letters = new RegExp('^[a-zA-Z ]*$');
+			// var numbers = new RegExp ('^[0-9]/*$');
+			// var date_yyyy_mm_dd = new RegExp ('^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$');
+			// var formattedPhone = new RegExp('^(\+\d{1,2}\s)?\(?\d{3}\)?[\s.-]\d{3}[\s.-]\d{4}$');
+			// var nonFormattedPhone = new RegExp ('^(\+\d{1,2}\s)?\(?\d{3}\)?[\s.-]?\d{3}[\s.-]?\d{4}$');
+
+			// var customRegex = new RegExp('');
+
+			// var regex = template; //Select a preset from above.
+
+			// var key = String.fromCharCode(!event.charCode ? event.which : event.charCode);
+			// if (!regex.test(key)) //Check each key.
+			// { 
+			// 	event.preventDefault();
+			// 	return false;
+			// }
+		// });
+		//
+	},
+	"jQuery - Selection Listener": {
+		"prefix": "jQuery - Selection Listener",
+		"body": [
+			"jQuery('${1:element}').on('${2:click keypress}',${4: '${3:element}',} function(event)",
+			 "{",
+			 	"\tvar code = event.key || event.code; //Get keycode.",
+				"\tif (event.type != 'click' && code != ' ' && code != 'Enter') //Check for click, space, and enter. (in that order)",
+					"\t\treturn; //If it isn't any of those, don't worry about it.",
+				"\t",
+				"\t$0",
+			"});"
+		],
+		"description": "Creates a jQuery listener for clicks, space, and enter."
+		//Output:
+		// jQuery('element').on('click keypress', 'element', function(event) //Create a jQuery click and keypress listener.
+		// {
+		// 	var code = event.keyCode || event.which; //Get keycode.
+		// 	if (event.type != 'Click' && code != ' ' && code != 'Enter') //Check for click, space, and enter. (in that order)
+		// 		return; //If it isn't any of those, don't worry about it.
+		//	
+		//
+		// });
+	},
+	"jQuery - Document Ready": {
+		"prefix": "jQuery - Document Ready",
+		"body": [
+			"jQuery(document).ready(function()",
+			 "{",
+				"\t$0",
+			"}); //End of Document Ready."
+		],
+		"description": "Creates a basic jQuery document ready."
+		//Output:
+		// jQuery(document).ready(function() //Wait for page to load.
+		// {
+		//		
+		// }); //End of Document Ready.
+	},
+	"jQuery - Ajax": {
+		"prefix": "jQuery - Ajax",
+		"body": [
+			"jQuery.ajax({url: '${1:target file}', data: '${2:data to send}', type: 'POST',",
+			"\tsuccess: function(data)",
+			"\t{",
+			"\t\tif(data)",
+			"\t\t{",
+			"\t\t\t//Data has been returned.",
+			"\t\t\t$0",
+			"\t\t}",
+			"\t}",
+			"});"
+		],
+		"description": "Creates a basic jQuery ajax call."
+		//Output:
+		// jQuery.ajax({url: 'target', data: 'data', type: 'POST',
+		// 	success: function(data)
+		// 		{
+		// 			if(data) 
+		// 			{
+		// 				//Data has been returned.
+		// 			}
+		// 		}
+		// 	});
+		//
+	},
+	"JavaScript - loadScript (Function)": {
+		"prefix": "JavaScript - loadScript (Function)",
+		"body": [
+			"function loadScript(source)",
+			"{",
+			"\tlet script = document.createElement(\"script\");",
+			"\tscript.src = source;",
+			"\tscript.async = ${2:false}; //Setting this to false will result in longer loading times, but may help solve dependency issues.",
+			"\tdocument.body.append(script);",
+			"}",
+			"$0"
+			],
+		"description": "Creates a function that will load in a separate JS file."
+		//Output:
+		// function loadScript(source)
+		// {
+		// 	let script = document.createElement("script");
+		// 	script.src = source;
+		// 	script.async = true; //Setting this to false will result in longer loading times, but may help solve dependency issues. 
+		// 	document.body.append(script);
+		// }
+		//
+	},
+	"JavaScript - waitForElm (Function)": {
+		"prefix": "JavaScript - waitForElm (Function)",
+		"body": [
+			"function waitForElm(selector) {",
+			"\treturn new Promise(resolve => {",
+			"\t\tif (document.querySelector(selector)) {",
+			"\t\t\treturn resolve(document.querySelector(selector));",
+			"\t\t}",
+			"\t\t",
+			"\t\tconst observer = new MutationObserver(mutations => {",
+			"\t\t\tif (document.querySelector(selector)) {",
+			"\t\t\t\tresolve(document.querySelector(selector));",
+			"\t\t\t\tobserver.disconnect();",
+			"\t\t\t}",
+			"\t\t});",
+			"\t\t",
+			"\t\tobserver.observer(document.body, {",
+			"\t\t\tchildList: true,",
+			"\t\t\tsubtree: true",
+			"\t\t});",
+			"\t});",
+			"}",
+			"$0"
+			],
+		"description": "Creates an observer on the document, watching for the specified selector. (This may be REALLY BAD for performance)"
+		//Output:
+		// function loadScript(selector) {
+		// 	return new Promise(resolve => {
+		// 		if (document.querySelector(selector)) {
+		// 			return resolve(document.querySelector(selector));
+		// 		}
+				
+		// 		const observer = new MutationObserver(mutations => {
+		// 			if (document.querySelector(selector)) {
+		// 				resolve(document.querySelector(selector));
+		// 				observer.disconnect();
+		// 			}
+		// 		});
+				
+		// 		observer.observer(document.body, {
+		// 			childList: true,
+		// 			subtree: true
+		// 		});
+		// 	});
+		// }
+		//
+	}
+}
