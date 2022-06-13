@@ -21,11 +21,30 @@
 			"$0"
 		],
 		"description": "Outputs PHP errors to the webpage."
+    },
+    // ini_set('display_errors', 1);
+	// ini_set('display_startup_errors', 1);
+	// error_reporting(E_ALL);
+	//
+	
+    "PHP - JSON Decode With Comments": {
+		"prefix": "PHP - JSON Decode With Comments",
+		"body": [
+			"function json_decode_commented(\\$json, \\$assoc = false, \\$maxDepth = 512, \\$opts = 0)",
+            "{",
+            "\t\\$json = preg_replace('~(\" (?:\\\\\\\\\\\\\\. | [^\"])*+ \") | \\# [^\\v]*+ | // [^\\v]*+ | /\\* .*? \\*/~xs', '\\$1', \\$json);",
+            "\t",
+            "\treturn json_decode(\\$json, \\$assoc, \\$maxDepth, \\$opts);",
+			"}"
+		],
+		"description": "Outputs PHP function that decodes JSON and strips away comments."
     }
-    // "PHP - Display CURL Errors": {
-    //     "prefix":"PHP - Display CURL Errors",
-    //     "body": [
-    //         ""
-    //     ]
-    // }
+	// function json_decode_commented($json, $assoc = false, $maxDepth = 512, $opts = 0)
+	// {
+	// 	$json = preg_replace('~(" (?:\\\\. | [^"])*+ ") | \# [^\v]*+ | // [^\v]*+ | /\* .*? \*/~xs', '$1', $json);
+	
+	// 	return json_decode($json, $assoc, $maxDepth, $opts);
+	// }
+
+	
 }
