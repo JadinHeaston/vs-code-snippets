@@ -25,7 +25,7 @@ I plan to use it as a place to safely store and track my changes, while allowing
 
 # Installation
 You can access your snippets by: 
-1. Open the Command Pallette (```F1``` or ```CTRL + P```).
+1. Open the Command Pallette (```F1``` or ```CTRL + P``` and add ```>```).
 2. Searching for "Preferences: Configure User Snippets"
 3. Select the language you want to modify/view the snippets for.  
 From here you can take whatever snippets you want from a file here or replace the VS Code file entirely.
@@ -33,7 +33,7 @@ From here you can take whatever snippets you want from a file here or replace th
 # Usage
 Visual Studio Code will populate your intellisense. You can also invoke the intellisense prompt by using ```CTRL + SPACE```.
 
-You can also go through the Command Pallette (```F1``` or ```CTRL + P```) and use "Insert Snippet", then selecting the snippet you want to insert.
+You can also go through the Command Pallette (```F1``` or ```CTRL + P``` and add ```>```) and use "Insert Snippet", then selecting the snippet you want to insert.
 
 ---
 **NOTE**
