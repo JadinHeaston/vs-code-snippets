@@ -17,9 +17,9 @@
 		"prefix": "jQuery - Restrict Text Input",
 		"body": [
 			"jQuery('${1:element}').on('keypress', function(event)",
-			 "{",
-			 	"\t//Presets",
-			 	"\tvar lowercaseLetters = new RegExp('^[a-z]*$');",
+			"{",
+				"\t//Presets",
+				"\tvar lowercaseLetters = new RegExp('^[a-z]*$');",
 				"\tvar uppercaseLetters = new RegExp('^[A-Z]*$');",
 				"\tvar words = new RegExp('^[a-zA-Z ]*$');",
 				"\tvar numbers = new RegExp ('^[0-9]/*$');",
@@ -63,7 +63,7 @@
 		"prefix": "jQuery - Selection Listener",
 		"body": [
 			"jQuery('${1:element}').on('${2:click keypress}',${4: '${3:element}',} function(event)",
-			 "{",
+			"{",
 			 	"\tvar code = event.key || event.code; //Get keycode.",
 				"\tif (event.type != 'click' && code != ' ' && code != 'Enter') //Check for click, space, and enter. (in that order)",
 					"\t\treturn; //If it isn't any of those, don't worry about it.",
@@ -86,7 +86,7 @@
 		"prefix": "jQuery - Document Ready",
 		"body": [
 			"jQuery(document).ready(function()",
-			 "{",
+			"{",
 				"\t$0",
 			"}); //End of Document Ready."
 		],
@@ -150,6 +150,8 @@
 	"JavaScript - waitForElm (Function)": {
 		"prefix": "JavaScript - waitForElm (Function)",
 		"body": [
+			"//USAGE:",
+			"//waitForElm('<SELECTOR>').then((elm) => {<FUNCTION>});",
 			"function waitForElm(selector) {",
 			"\treturn new Promise(resolve => {",
 			"\t\tif (document.querySelector(selector)) {",
@@ -163,7 +165,7 @@
 			"\t\t\t}",
 			"\t\t});",
 			"\t\t",
-			"\t\tobserver.observer(document.body, {",
+			"\t\tobserver.observe(document.body, {",
 			"\t\t\tchildList: true,",
 			"\t\t\tsubtree: true",
 			"\t\t});",
@@ -186,12 +188,15 @@
 		// 			}
 		// 		});
 				
-		// 		observer.observer(document.body, {
+		// 		observer.observe(document.body, {
 		// 			childList: true,
 		// 			subtree: true
 		// 		});
 		// 	});
 		// }
 		//
+
+		//USAGE:
+		//waitForElm('<SELECTOR>').then((elm) => {<FUNCTION>});
 	}
 }
