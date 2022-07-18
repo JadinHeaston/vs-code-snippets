@@ -90,12 +90,27 @@
 				"\t$0",
 			"}); //End of Document Ready."
 		],
-		"description": "Creates a basic jQuery document ready."
+		"description": "Creates a basic jQuery document ready that waits for DOM content to load."
 		//Output:
 		// jQuery(document).ready(function() //Wait for page to load.
 		// {
 		//		
 		// }); //End of Document Ready.
+	},
+	"jQuery - Window Load": {
+		"prefix": "jQuery - Window Load",
+		"body": [
+			"jQuery(window).load(function(event) {",
+			"{",
+				"\t$0",
+			"}); //End of Window Load."
+		],
+		"description": "Waits for the page to FULLY load."
+		//Output:
+		// jQuery(window).load(function(event) {
+		// {
+		//		
+		// }); //End of Window Load.
 	},
 	"jQuery - Ajax": {
 		"prefix": "jQuery - Ajax",
@@ -198,5 +213,193 @@
 
 		//USAGE:
 		//waitForElm('<SELECTOR>').then((elm) => {<FUNCTION>});
-	}
+	},
+	"jQuery - getElementDistanceFromWindowTop (Function)": {
+		"prefix": "jQuery - getElementDistanceFromWindowTop",
+		"body": [
+			"//Returns pixels of the element from the top of the displayed window.",
+			"function getElementDistanceFromWindowTop(givenSelector) {",
+			"{",
+				"\tvar scrollTop = jQuery(window).scrollTop();",
+				"\tvar elementOffset = jQuery(givenSelector).offset().top;",
+				"\tvar elementDistance = (elementOffset - scrollTop);",
+				"\t",
+				"\treturn elementDistance;",
+			"}); //End of Window Load.",
+			"$0"
+		],
+		"description": "Creates a basic jQuery document ready."
+		//Output:
+		// //Returns pixels of the element from the top of the displayed window.
+		// function getElementDistanceFromWindowTop(givenSelector) {
+		// 	var scrollTop = jQuery(window).scrollTop();
+		// 	var elementOffset = jQuery(givenSelector).offset().top;
+		// 	var elementDistance = (elementOffset - scrollTop);
+
+		// 	return elementDistance;
+		// }
+		// 
+	},
+	"jQuery - monkeyPatchEventMethods (Function)": {
+        "prefix": "jQuery - monkeyPatchEventMethods",
+        "body": [
+            "//Logs all calls to preventDefault / stopPropagation in a user-friendly way.",
+            "//https://stackoverflow.com/a/42630278",
+            "//https://gist.github.com/slorber/b1c0ffef56abd449c05476b5c609a36e",
+            "function monkeyPatchEventMethods() {",
+            "\tconst logEventMethodCall = (event, methodName) => {",
+            "\t\tconst MinimumMeaningfulSelectors = 3; //How many meaningful items we want in log message.",
+            "\t\tconst target = event.target;",
+            "",
+            "\t\tconst selector = (function computeSelector() {",
+            "\t\t\tconst parentSelectors = [];",
+            "\t\t\tlet node = target;",
+            "\t\t\tlet minimumSelectors = 0;",
+            "\t\t\tdo {",
+            "\t\t\t\tconst meaningfulSelector = node.id ?",
+            "\t\t\t\t\t`#${node.id}` : node.classList.length > 0 ?",
+            "\t\t\t\t\t\t`.${Array.prototype.join.call(node.classList, '.')}` : undefined;",
+            "\t\t\t\tif (meaningfulSelector) minimumSelectors++;",
+            "\t\t\t\tconst nodeSelector = `${node.tagName.toLowerCase()}${meaningfulSelector ? meaningfulSelector : ''}`;",
+            "\t\t\t\tparentSelectors.unshift(nodeSelector);",
+            "\t\t\t\tnode = node.parentNode;",
+            "\t\t\t} while (node && node !== document && minimumSelectors < MinimumMeaningfulSelectors);",
+            "\t\t\treturn parentSelectors.join(\" > \");",
+            "\t\t})();",
+            "",
+            "\t\tconsole.debug(`${event.type}.${methodName}() on ${selector}`, event);",
+            "\t};",
+            "",
+            "\tconst preventDefault = Event.prototype.preventDefault;",
+            "\tEvent.prototype.preventDefault = function () {",
+            "\t\tlogEventMethodCall(this, 'preventDefault');",
+            "\t\tpreventDefault.call(this);",
+            "\t};",
+            "",
+            "\tconst stopPropagation = Event.prototype.stopPropagation;",
+            "\tEvent.prototype.stopPropagation = function () {",
+            "\t\tlogEventMethodCall(this, 'stopPropagation');",
+            "\t\tstopPropagation.call(this);",
+            "\t};",
+            "",
+            "}",
+            "// $0monkeyPatchEventMethods(); //Calling debugging function"
+        ],
+        "description": "A function that provides more descriptive console logging for preventDefault and stopPropagation calls."
+		//Output:
+		// //Logs all calls to preventDefault / stopPropagation in a user-friendly way.
+		// //https://stackoverflow.com/a/42630278
+		// //https://gist.github.com/slorber/b1c0ffef56abd449c05476b5c609a36e
+		// function monkeyPatchEventMethods() {
+		// 	const logEventMethodCall = (event, methodName) => {
+		// 		const MinimumMeaningfulSelectors = 3; //How many meaningful items we want in log message.
+		// 		const target = event.target;
+
+		// 		const selector = (function computeSelector() {
+		// 			const parentSelectors = [];
+		// 			let node = target;
+		// 			let minimumSelectors = 0;
+		// 			do {
+		// 				const meaningfulSelector = node.id ?
+		// 					`#${node.id}` : node.classList.length > 0 ?
+		// 						`.${Array.prototype.join.call(node.classList, '.')}` : undefined;
+		// 				if (meaningfulSelector) minimumSelectors++;
+		// 				const nodeSelector = `${node.tagName.toLowerCase()}${meaningfulSelector ? meaningfulSelector : ''}`;
+		// 				parentSelectors.unshift(nodeSelector);
+		// 				node = node.parentNode;
+		// 			} while (node && node !== document && minimumSelectors < MinimumMeaningfulSelectors);
+		// 			return parentSelectors.join(" > ");
+		// 		})();
+
+		// 		console.debug(`${event.type}.${methodName}() on ${selector}`, event);
+		// 	};
+
+		// 	const preventDefault = Event.prototype.preventDefault;
+		// 	Event.prototype.preventDefault = function () {
+		// 		logEventMethodCall(this, 'preventDefault');
+		// 		preventDefault.call(this);
+		// 	};
+
+		// 	const stopPropagation = Event.prototype.stopPropagation;
+		// 	Event.prototype.stopPropagation = function () {
+		// 		logEventMethodCall(this, 'stopPropagation');
+		// 		stopPropagation.call(this);
+		// 	};
+
+		// }
+		// // monkeyPatchEventMethods(); //Calling debugging function
+    },
+		"jQuery - isLinkSamePageID (Function)": {
+		"prefix": "jQuery - isLinkSamePageID (Function)",
+		"body": [
+			"function isLinkSamePageID(givenLink, verifyElement) {",
+			"\t//Check if link has an ID.",
+			"\tif (givenLink.includes('#'))",
+			"\t\tvar destinationID = givenLink.substring(givenLink.search('#'));",
+			"\telse",
+			"\t\treturn false;",
+			"\t",
+			"\tif (givenLink === \"#\") //If HREF is only a pound sign then end this.",
+			"\t\treturn false;",
+			"\t",
+			"\tif (verifyElement)",
+			"\t{",
+			"\t\tif (jQuery(destinationID)) //Check for ID on page.",
+			"\t\t\tverifyElement = true;",
+			"\t\telse",
+			"\t\t\treturn false;",
+			"\t}",
+			"\t ",
+			"\tvar currentPath = window.location.href; //Get current URL path. This step is needed, but I'm not entirely sure why.",
+			"\tvar absoluteCurrentPath = new URL(currentPath.substring(0, currentPath.lastIndexOf(\"/\") + 1), document.baseURI).href; //Get absolute \"root\" path of current document - excludes IDs at the end and files.\t",
+			"\tvar absoluteHREF = new URL(givenLink.substring(0, givenLink.lastIndexOf(\"/\")), document.baseURI).href; //Converting to absolute full URL.",
+			"",
+			"\t//Sometimes a slash is not added. Add one.",
+			"\tif (!absoluteHREF.includes(\"?\") && absoluteHREF.charAt(absoluteHREF.length - 1) != \"/\")",
+			"\t\tabsoluteHREF = absoluteHREF.concat(\"/\");",
+			"",
+			"\t//Verifying the link is for THIS page. - And that the header to compensate for, and destination to go to both exist.",
+			"\tif (absoluteHREF.includes(\"?\") || absoluteHREF === absoluteCurrentPath)",
+			"\t\treturn destinationID;",
+			"\telse",
+			"\t\treturn false;",
+			"}",
+			"$0"
+		],
+		"description": "A function that checks if a provided link references the current page."
+		//output
+		// function isLinkSamePageID(givenLink, verifyElement) {
+		// 	//Check if link has an ID.
+		// 	if (givenLink.includes('#'))
+		// 		var destinationID = givenLink.substring(givenLink.search('#'));
+		// 	else
+		// 		return false;
+			
+		// 	if (givenLink === "#") //If HREF is only a pound sign then end this.
+		// 		return false;
+			
+		// 	if (verifyElement)
+		// 	{
+		// 		if (jQuery(destinationID)) //Check for ID on page.
+		// 			verifyElement = true;
+		// 		else
+		// 			return false;
+		// 	}
+			
+		// 	var currentPath = window.location.href; //Get current URL path. This step is needed, but I'm not entirely sure why.
+		// 	var absoluteCurrentPath = new URL(currentPath.substring(0, currentPath.lastIndexOf("/") + 1), document.baseURI).href; //Get absolute "root" path of current document - excludes IDs at the end and files.	
+		// 	var absoluteHREF = new URL(givenLink.substring(0, givenLink.lastIndexOf("/")), document.baseURI).href; //Converting to absolute full URL.
+		
+		// 	//Sometimes a slash is not added. Add one.
+		// 	if (!absoluteHREF.includes("?") && absoluteHREF.charAt(absoluteHREF.length - 1) != "/")
+		// 		absoluteHREF = absoluteHREF.concat("/");
+		
+		// 	//Verifying the link is for THIS page. - And that the header to compensate for, and destination to go to both exist.
+		// 	if (absoluteHREF.includes("?") || absoluteHREF === absoluteCurrentPath)
+		// 		return destinationID;
+		// 	else
+		// 		return false;
+		// }
+		// 
+    }
 }
