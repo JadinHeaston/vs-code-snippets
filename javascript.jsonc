@@ -41,7 +41,7 @@
     },
     "jQuery - Window Load": {
         "body": [
-            "jQuery(window).load(function(event) {",
+            "jQuery(window).load(function(event)",
             "{",
             "\t$0",
             "}); //End of Window Load."
