@@ -1,4 +1,5 @@
 # Regex Collection
+
 Regex can be used for two purposes as one of two types, filters and format compliance checkers:
 
 - [**Filters**](#Filters) are designed for actively scan each character to see whether it does (or doesn't) match the defined expression. This is useful for PHP's ```preg_replace()```.  
@@ -10,7 +11,9 @@ Regex can be used for two purposes as one of two types, filters and format compl
 The expressions below are categorized based on whether they support International language or only standard English letters.
 
 ---
+
 ## Table of Content
+
 1. [Regex Collection](#regex-collection)
     1. [Table of Content](#table-of-content)
     2. [Filters](#filters)
@@ -26,18 +29,23 @@ The expressions below are categorized based on whether they support Internationa
         2. [Phone Numbers](#phone-numbers)
         3. [Dates](#dates)
         4. [Resources](#resources-1)
+
 ---
 
 ## Filters
+
 **Note:** All filters include an inversed variant for matching the opposite of what is defined. This can be useful for using ```preg_replace()``` to remove unwanted characters.  
 
 ### International Language Support
+
 **Note:** Not every Regular Expression parser supports Unicode.  
 **Note:** ```/u``` specifies Unicode support.  
 **Note:** When utilizing inverse expressions, ```\P``` is the preferred method over ```^\p``` for "tempered greedy tokens" being poor for [performance](https://stackoverflow.com/a/37343088).  
 
 #### Text
-```
+
+``` rst
+
 All Letters
     Expression:
         [\p{L}]*/u
@@ -80,7 +88,9 @@ Lowercase Letters + Uppercase Letters + Space
 ```
 
 #### Numbers and Symbols
-```
+
+``` rst
+
 Regular Numbers
     Description:
         Matches all regular Roman numbers.
@@ -95,12 +105,15 @@ Regular Numbers
 ```
 
 #### Resources
+
 https://www.regular-expressions.info/unicode.html#category
 
 ### English Support Only
 
 #### Text
-```
+
+``` rst
+
 All Letters:
     Expression:
         [a-zA-Z]*
@@ -127,7 +140,9 @@ Lowercase Letters + Uppercase Letters + Space
 ```
 
 #### Numbers and Symbols
-```
+
+``` rst
+
 Regular Numbers
     Expression:
         [0-9]*
@@ -138,8 +153,11 @@ Regular Numbers
 ## Format Compliance
 
 ### Email
+
 Only the built in "email" pattern should be used from [w3.org](https://www.w3.org/TR/2012/WD-html-markup-20120329/input.email.html).
-```
+
+``` rst
+
 Expression:
     ^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$
 Format:
@@ -149,7 +167,9 @@ Format:
 ### Phone Numbers
 
 Found via [StackOverflow](https://stackoverflow.com/a/16699507).
-```
+
+``` rst
+
 International Phone Number:
     Description:
         Checks for formatted, and unformatted, 10 digit phone numbers optionally including a 1-3 digit country code.
@@ -188,7 +208,9 @@ United States Phone Number:
 ```
 
 ### Dates
-```
+
+``` rst
+
 Full Date Validation (including leap years)
     Description:
         A complicated expression that verifies pretty much everything, including leap years. 
@@ -220,4 +242,5 @@ Simple Date (YYYY-MM-DD)
 ```
 
 ### Resources  
+
 https://www.html5pattern.com
