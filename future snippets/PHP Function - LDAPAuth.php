@@ -20,7 +20,6 @@ function LDAPAuth($givenUserID, $givenPassword)
     if (!$ldapbind)
         return false;
 
-    
     //Searching....
     $LDAPResult = @ldap_search($ldap_conn, '<DC=DOMAIN,DC=DOMAIN>', '(sAMAccountName=' . $givenUserID . ')');
     $LDAPUsers = @ldap_get_entries($ldap_conn, $LDAPResult); // Storing results in an associative array.

@@ -24,11 +24,15 @@ The expressions below are categorized based on whether they support Internationa
         2. [English Support Only](#english-support-only)
             1. [Text](#text-1)
             2. [Numbers and Symbols](#numbers-and-symbols-1)
+        3. [International Language Support](#international-language-support-1)
+            1. [Text](#text-2)
+            2. [Numbers and Symbols](#numbers-and-symbols-2)
     3. [Format Compliance](#format-compliance)
-        1. [Email](#email)
-        2. [Phone Numbers](#phone-numbers)
-        3. [Dates](#dates)
-        4. [Resources](#resources-1)
+        1. [Complex Active Directory](#complex-active-directory)
+        2. [Email](#email)
+        3. [Phone Numbers](#phone-numbers)
+        4. [Dates](#dates)
+        5. [Resources](#resources-1)
 
 ---
 
@@ -45,7 +49,6 @@ The expressions below are categorized based on whether they support Internationa
 #### Text
 
 ``` rst
-
 All Letters
     Expression:
         [\p{L}]*/u
@@ -90,30 +93,28 @@ Lowercase Letters + Uppercase Letters + Space
 #### Numbers and Symbols
 
 ``` rst
-
 Regular Numbers
     Description:
         Matches all regular Roman numbers.
     Expression:
-        [\p{Nl}]*/u
-        [\p{Letter_Number}]*/u
+        [\p{Nd}]*/u
+        [\p{Decimal_Digit_Number}]*/u
     Inverse Expression:
-        [\P{Nl}]*/u
-        [\P{Letter_Number}]*/u
-        [^\p{Nl}]*/u
-        [^\p{Letter_Number}]*/u
+        [\P{Nd}]*/u
+        [\P{Decimal_Digit_Number}]*/u
+        [^\p{Nd}]*/u
+        [^\p{Decimal_Digit_Number}]*/u
 ```
 
 #### Resources
 
-https://www.regular-expressions.info/unicode.html#category
+[Unicode Regex](https://www.regular-expressions.info/unicode.html)
 
 ### English Support Only
 
 #### Text
 
 ``` rst
-
 All Letters:
     Expression:
         [a-zA-Z]*
@@ -142,7 +143,6 @@ Lowercase Letters + Uppercase Letters + Space
 #### Numbers and Symbols
 
 ``` rst
-
 Regular Numbers
     Expression:
         [0-9]*
@@ -150,14 +150,68 @@ Regular Numbers
         [^0-9]*
 ```
 
+### International Language Support
+
+[Resource](https://www.regular-expressions.info/unicode.html#category)
+
+#### Text
+
+``` rst
+All Letters:
+    Expression:
+        [\p{Ll}\p{Lu}]*
+    Inverse Expression:
+        [^\p{Ll}\p{Lu}]*
+
+Lowercase Letters
+    Expression:
+        [\p{Ll}]*
+    Inverse Expression:
+        [^\p{Ll}]*
+
+Uppercase Letters
+    Expression:
+        [\p{Lu}]*
+    Inverse Expression:
+        [^\p{Lu}]*
+
+Lowercase Letters + Uppercase Letters + Space
+    Expression:
+        [\p{Ll}\p{Lu} ]*
+    Inverse Expression:
+        [^\p{Ll}\p{Lu} ]*
+```
+
+#### Numbers and Symbols
+
+``` rst
+Regular Numbers
+    Expression:
+        [\p{Nd}]*
+    Inverse Expression:
+        [^\p{Nd}]*
+```
+
+
 ## Format Compliance
+
+### Complex Active Directory
+
+Modified from [StackOverflow](https://stackoverflow.com/a/3166778)
+
+``` rst
+Expression:
+    (?=^.{15,255}$)((?=.*\p{Nd})(?=.*[\p{Lu}])(?=.*[\p{Ll}])|(?=.*[\p{Nd}])(?=.*[^\p{Lu}\p{Ll}\p{Nd}])(?=.*[\p{Ll}])|(?=.*[^\p{Lu}\p{Ll}\p{Nd}])(?=.*[\p{Lu}])(?=.*[\p{Ll}])|(?=.*[\p{Nd}])(?=.*[\p{Lu}])(?=.*[^\p{Lu}\p{Ll}\p{Nd}]))^.*$
+Description:
+    Checks for a length between 15-255 (found at the start) and 3 of 4 complexities (uppercase, lowercase, digits, symbols).
+    My modification attempts to add unicode support, but has not been tested.
+```
 
 ### Email
 
 Only the built in "email" pattern should be used from [w3.org](https://www.w3.org/TR/2012/WD-html-markup-20120329/input.email.html).
 
 ``` rst
-
 Expression:
     ^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$
 Format:
@@ -169,7 +223,6 @@ Format:
 Found via [StackOverflow](https://stackoverflow.com/a/16699507).
 
 ``` rst
-
 International Phone Number:
     Description:
         Checks for formatted, and unformatted, 10 digit phone numbers optionally including a 1-3 digit country code.
@@ -210,7 +263,6 @@ United States Phone Number:
 ### Dates
 
 ``` rst
-
 Full Date Validation (including leap years)
     Description:
         A complicated expression that verifies pretty much everything, including leap years. 
@@ -241,6 +293,7 @@ Simple Date (YYYY-MM-DD)
         YYYY-MM-DD
 ```
 
-### Resources  
+### Resources
 
-https://www.html5pattern.com
+[HTML5 Patterns](https://www.html5pattern.com)  
+[Regular Expression Unicode](https://www.regular-expressions.info/unicode.html)

@@ -41,7 +41,7 @@
     },
     "jQuery - Window Load": {
         "body": [
-            "jQuery(window).load(function(event)",
+            "jQuery(window).load(function(event) {",
             "{",
             "\t$0",
             "}); //End of Window Load."
@@ -369,8 +369,7 @@
             "\tvar elementDistance = (elementOffset - scrollTop);",
             "\t",
             "\treturn elementDistance;",
-            "}); //End of Window Load.",
-            "$0"
+            "}); //End of Window Load."
         ],
         //Output:
         // //Returns pixels of the element from the top of the displayed window.
@@ -383,5 +382,21 @@
         //
         "prefix": "jQuery - getElementDistanceFromWindowTop",
         "description": "Creates a basic jQuery document ready."
+    },
+    "jQuery - Scrolling Interrupt (Listener)": {
+        "body": [
+            "//Stops scroll animations if the user attempts to scroll in any way.",
+            "page.on(\"scroll mousedown wheel DOMMouseScroll mousewheel keyup touchmove\", function() {",
+            "{",
+            "\tpage.stop();",
+            "});"
+        ],
+        //Output:
+        // //Stops scroll animations if the user attempts to scroll in any way.
+        // page.on("scroll mousedown wheel DOMMouseScroll mousewheel keyup touchmove", function() {
+        //     page.stop();
+        // });
+        "prefix": "jQuery - Scrolling Interrupt (Listener)",
+        "description": "Listens for user input/scrolling and cancels automatic scrolling events."
     }
 }

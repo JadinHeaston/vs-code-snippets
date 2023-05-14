@@ -1,0 +1,5 @@
+function copyAttrs(source, target) {
+    [...source.attributes].forEach(attr => {
+        target.setAttribute(attr.nodeName, attr.nodeValue)
+    })
+}

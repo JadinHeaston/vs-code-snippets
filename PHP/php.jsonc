@@ -1,0 +1,91 @@
+{
+	// Place your snippets for php here. Each snippet is defined under a snippet name and has a prefix, body and 
+	// description. The prefix is what is used to trigger the snippet and the body will be expanded and inserted. Possible variables are:
+	// $1, $2 for tab stops, $0 for the final cursor position, and ${1:label}, ${2:another} for placeholders. Placeholders with the 
+	// same ids are connected.
+	// Example:
+	// "Print to console": {
+	// 	"prefix": "log",
+	// 	"body": [
+	// 		"console.log('$1');",
+	// 		"$2"
+	// 	],
+	// 	"description": "Log output to console"
+	// }
+    "PHP - Display General Errors": {
+		"prefix": "PHP - Display General Errors",
+		"body": [
+			"ini_set('display_errors', 1);",
+            "ini_set('display_startup_errors', 1);",
+            "error_reporting(E_ALL);",
+			"$0"
+		],
+		"description": "Outputs PHP errors to the webpage."
+		// Output:
+		// ini_set('display_errors', 1);
+		// ini_set('display_startup_errors', 1);
+		// error_reporting(E_ALL);
+		// 
+    },
+    "PHP Function - JSON Decode With Comments": {
+		"prefix": "PHP Function - JSON Decode With Comments",
+		"body": [
+			"function json_decode_commented(\\$json, \\$assoc = false, \\$maxDepth = 512, \\$opts = 0)",
+            "{",
+            "\t\\$json = preg_replace('~(\" (?:\\\\\\\\\\\\\\. | [^\"])*+ \") | \\# [^\\v]*+ | // [^\\v]*+ | /\\* .*? \\*/~xs', '\\$1', \\$json);",
+            "\t",
+            "\treturn json_decode(\\$json, \\$assoc, \\$maxDepth, \\$opts);",
+			"}"
+		],
+		"description": "Outputs PHP function that decodes JSON and strips away comments."
+		//Output:
+		// function json_decode_commented($json, $assoc = false, $maxDepth = 512, $opts = 0)
+		// {
+		// 	$json = preg_replace('~(" (?:\\\\. | [^"])*+ ") | \# [^\v]*+ | // [^\v]*+ | /\* .*? \*/~xs', '$1', $json);
+		
+		// 	return json_decode($json, $assoc, $maxDepth, $opts);
+		// }
+    },
+	"PHP Class - ScopeTimer": {
+		"prefix": "PHP Class - ScopeTimer",
+		"body": [
+			"class ScopeTimer",
+			"{",
+				"\tpublic \\$name;",
+				"\tpublic \\$startTime;",
+				"\t",
+				"\tfunction __construct(\\$name = 'Timer')",
+				"\t{",
+					"\t\t\\$this->startTime = microtime(true);",
+					"\t\t\\$this->name = \\$name;",
+				"\t}",
+				"\t",
+				"\tfunction __destruct()",
+				"\t{",
+					"\t\t\\$elapsed_time = microtime(true) - \\$this->startTime;",
+					"\t\techo \\$this->name . ': ' . \\$elapsed_time . 'ms';",
+				"\t}",
+				"\t",
+				"\t//$timer = new ScopeTimer(__FILE__);",
+			"}"
+		],
+		"description": "Creates the ScopeTimer function for measuring a scopes performance in ms."
+		//Output:
+		// class ScopeTimer {
+		// 	public $name;
+		// 	public $startTime;
+			
+		// 	function __construct($name = 'Timer') {
+		// 		$this->startTime = microtime(true);
+		// 		$this->name = $name;
+		// 	}
+		
+		// 	function __destruct() {
+		// 		$elapsed_time = microtime(true) - $this->startTime;
+		// 		echo $this->name . ': ' . $elapsed_time . 'ms';
+		// 	}
+		
+		// 	//$timer = new ScopeTimer(__FILE__);
+		// }
+	}
+}
