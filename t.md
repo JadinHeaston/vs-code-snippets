@@ -31,6 +31,7 @@ They can also be used to represent multiple lines by using triple back-ticks, op
 This provides additional context for syntax highlighting.
 
 Code snippet
+
 ```php
 function adfsLoginResponseProcessing(string $context)
 {
