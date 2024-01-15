@@ -1,5 +1,7 @@
 <?PHP
 
+namespace jbh;
+
 class DatabaseConnector
 {
 	protected $connection;
@@ -33,7 +35,7 @@ class DatabaseConnector
 		)
 	);
 
-	public function __construct(string $hostPath, int $port, string $db, string $user, string $pass, string $type, string $charset = 'utf8mb4', bool|null $trustCertificate = null)
+	public function __construct(string $type, string $hostPath, int $port = null, string $db = '', string $user = '', string $pass = '', string $charset = 'utf8mb4', bool|null $trustCertificate = null)
 	{
 		$this->type = strtolower(trim($type));
 		try
@@ -49,7 +51,7 @@ class DatabaseConnector
 
 			$dsn .= $hostPath;
 
-			if ($this->type === 'mysql' || $this->type === 'sqlsrv')
+			if ($this->type === 'mysql')
 				$dsn .= ';port=' . strval($port);
 
 			if ($this->type === 'mysql')
@@ -65,12 +67,12 @@ class DatabaseConnector
 				$dsn .= ';TrustServerCertificate=' . strval(intval($trustCertificate));
 
 			//Attempting connection.
-			$this->connection = new PDO($dsn, $user, $pass);
-			$this->connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
-			$this->connection->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
-			$this->connection->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
+			$this->connection = new \PDO($dsn, $user, $pass);
+			$this->connection->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_WARNING);
+			$this->connection->setAttribute(\PDO::ATTR_EMULATE_PREPARES, false);
+			$this->connection->setAttribute(\PDO::ATTR_DEFAULT_FETCH_MODE, \PDO::FETCH_ASSOC);
 		}
-		catch (PDOException $e)
+		catch (\PDOException $e)
 		{
 			exit($e->getMessage());
 		}
@@ -85,16 +87,60 @@ class DatabaseConnector
 			$stmt = $this->connection->prepare($query);
 
 			if ($stmt === false)
-				throw new Exception('Unable to do prepared statement: ' . $query);
+				throw new \Exception('Unable to do prepared statement: ' . $query);
 
 			$stmt->execute($params);
 			return $stmt;
 		}
-		catch (Exception $e)
+		catch (\Exception $e)
 		{
-			throw new Exception($e->getMessage());
+			throw new \Exception($e->getMessage());
 		}
-	}
+	}/**
+ * Utility function to build HTML table from an array.
+ * 
+ * Reference: http://www.terrawebdesign.com/multidimensional.php
+ */
+
+    function htmlShowArray($array) {
+        echo "<table cellspacing='0' border='1'>\n";
+        show_array($array, 1, 0);
+        echo "</table>\n";
+    }
+
+
+    function show_array($array, $level, $sub) {
+        if (is_array($array) == 1) {          // check if input is an array
+            foreach($array as $key_val => $value) {
+                $offset = '';
+                if (is_array($value) == 1){   // array is multidimensional
+                    echo '<tr>';
+                    $offset = do_offset($level);
+                    echo $offset . '<td>' . $key_val . '</td>';
+                    show_array($value, $level + 1, 1);
+                } else { // (sub)array is not multidim
+                    if ($sub != 1){ // first entry for subarray
+                        echo '<tr nosub>';
+                        $offset = do_offset($level);
+                    }
+                    $sub = 0;
+                    echo $offset ."<td width='180px'>" . $value . '</td>';
+                    echo "</tr>\n";
+                }
+            } //foreach $array
+        } else { 
+            // argument $array is not an array
+            return;
+        }
+    }
+
+    function do_offset($level){
+        $offset = ''; // offset for subarry 
+        for ($i=1; $i<$level;$i++) {
+            $offset = $offset . '<td></td>';
+        }
+        return $offset;
+    }
 
 	public function select($query = '', $params = [])
 	{
@@ -103,9 +149,9 @@ class DatabaseConnector
 			$stmt = $this->executeStatement($query, $params);
 			return $stmt->fetchAll();
 		}
-		catch (Exception $e)
+		catch (\Exception $e)
 		{
-			throw new Exception($e->getMessage());
+			throw new \Exception($e->getMessage());
 		}
 		return false;
 	}
@@ -117,11 +163,16 @@ class DatabaseConnector
 			$stmt = $this->executeStatement($query, $params);
 			return $stmt->rowCount();
 		}
-		catch (Exception $e)
+		catch (\Exception $e)
 		{
-			throw new Exception($e->getMessage());
+			throw new \Exception($e->getMessage());
 		}
 		return false;
+	}
+
+	public function getLastInsertID(): string
+	{
+		return $this->connection->lastInsertId();
 	}
 
 	public function listTables($includeViews = true)
@@ -140,9 +191,9 @@ class DatabaseConnector
 			$stmt = $this->executeStatement($query);
 			return $stmt->fetchAll();
 		}
-		catch (Exception $e)
+		catch (\Exception $e)
 		{
-			throw new Exception($e->getMessage());
+			throw new \Exception($e->getMessage());
 		}
 		return false;
 	}
@@ -162,9 +213,9 @@ class DatabaseConnector
 			$stmt = $this->executeStatement($query, array($table));
 			return $stmt->fetchAll();
 		}
-		catch (Exception $e)
+		catch (\Exception $e)
 		{
-			throw new Exception($e->getMessage());
+			throw new \Exception($e->getMessage());
 		}
 		return false;
 	}
@@ -180,9 +231,9 @@ class DatabaseConnector
 			$stmt = $this->executeStatement($query, array($table));
 			return $stmt->fetchAll();
 		}
-		catch (Exception $e)
+		catch (\Exception $e)
 		{
-			throw new Exception($e->getMessage());
+			throw new \Exception($e->getMessage());
 		}
 		return false;
 	}
@@ -198,9 +249,9 @@ class DatabaseConnector
 			$stmt = $this->executeStatement($query, array($table));
 			return $stmt->fetchAll();
 		}
-		catch (Exception $e)
+		catch (\Exception $e)
 		{
-			throw new Exception($e->getMessage());
+			throw new \Exception($e->getMessage());
 		}
 		return false;
 	}
@@ -228,10 +279,239 @@ class DatabaseConnector
 			$stmt = $this->executeStatement($query, array($tableName,));
 			return $stmt->fetchAll();
 		}
-		catch (Exception $e)
+		catch (\Exception $e)
 		{
-			throw new Exception($e->getMessage());
+			throw new \Exception($e->getMessage());
 		}
+
 		return false;
+	}
+}
+
+class Table
+{
+	public TableRows $rows;
+
+	public function __construct(TableColumns $columns)
+	{
+		$this->rows = new TableRows($columns);
+	}
+
+	/**
+	 * Returns array of rows
+	 *
+	 * @return Array<row>
+	 */
+	public function getRows()
+	{
+		return $this->rows->getRows();
+	}
+
+	public function importData(array $data)
+	{
+		if ($data === false)
+			return false;
+		foreach ($data as $row)
+		{
+			$this->rows->addRow(new Row($row));
+		}
+
+		return true;
+	}
+
+	public function listColumns(bool $fullyQualifiedName = false)
+	{
+		return $this->rows->listColumns($fullyQualifiedName);
+	}
+
+	public function getColumns()
+	{
+		return $this->rows->getColumns();
+	}
+
+	/**
+	 * Returns HTML of the inputs.
+	 *
+	 * @return string
+	 */
+	public function displayInputs()
+	{
+		$output = '';
+		foreach ($this->getRows() as $row)
+		{
+			foreach ($row->values as $key => $value)
+			{
+				$output .=  '<label>' . ucwords(str_replace('_', ' ', $key)) . '<input type="string" value="' .  $value . '">' . '</label>';
+			}
+		}
+
+		return $output;
+	}
+}
+
+
+/**
+ * Columns pull the most amount of work.
+ */
+class TableColumns
+{
+	public array $columns = array();
+
+	public function __construct(Column ...$columns)
+	{
+		foreach ($columns as $column)
+		{
+			$this->columns[$column->name] = $column;
+		}
+	}
+
+	public function addColumn(Column $column)
+	{
+		$this->columns[$column->name] = $column;
+		return true;
+	}
+
+	public function listColumns(bool $fullyQualifiedName = false)
+	{
+		$columnsNames = array();
+
+		foreach ($this->getColumns() as $column)
+		{
+			$columnsNames[] = $column->getFullColumnName($fullyQualifiedName);
+		}
+
+		return $columnsNames;
+	}
+
+	/**
+	 * Returns array of columns
+	 *
+	 * @return Array<Column>
+	 */
+	public function getColumns()
+	{
+		return $this->columns;
+	}
+
+	public function importData(array $data)
+	{
+		foreach ($data as $row)
+		{
+			foreach ($this->getColumns() as $columns)
+			{
+				$this->columns[$columns->name]->addValue($row, $columns->name);
+			}
+		}
+
+		return true;
+	}
+}
+
+/**
+ * Rows store the actual data. Each row is made up of X number if columns 
+ */
+class TableRows
+{
+	public TableColumns $columns;
+	public array $rows = array();
+
+	public function __construct(TableColumns $columns)
+	{
+		$this->initializateColumns($columns);
+	}
+
+	public function addRow(row $row)
+	{
+		$this->rows[] = $row;
+	}
+
+	/**
+	 * Returns array of rows
+	 *
+	 * @return Array<row>
+	 */
+	public function getRows()
+	{
+		return $this->rows;
+	}
+
+	private function initializateColumns(TableColumns $columns)
+	{
+		$this->columns = $columns;
+	}
+
+	public function listColumns(bool $fullyQualifiedName = false)
+	{
+		return $this->columns->listColumns($fullyQualifiedName);
+	}
+	
+	public function getColumns()
+	{
+		return $this->columns->getColumns();
+	}
+}
+
+class Column
+{
+	public string $name;
+	/**
+	 * Valid types: bool | email | int | json | phone | string
+	 *
+	 * @var string
+	 */
+	public string $type;
+	public ?string $tableName;
+
+	public function __construct(string $columnName, string $type, string $tableName = null)
+	{
+		$this->name = $columnName;
+		$this->type = $type;
+		$this->tableName = $tableName;
+	}
+
+	public function getFullColumnName(bool $fullyQualifiedName = false)
+	{
+		if ($this->tableName === null || $fullyQualifiedName === false)
+			return $this->name;
+		else
+			return $this->tableName . '.' . $this->name;
+	}
+}
+
+class Row
+{
+	public array $values = array();
+
+	/**
+	 * Providing an array will push each element of the array onto the variable stack.
+	 *
+	 * @param mixed $value
+	 */
+	public function __construct(array $data)
+	{
+		$this->values = $data;
+	}
+
+	public function getValues()
+	{
+		return $this->values;
+	}
+
+	public function addValue(mixed $data)
+	{
+		$this->values[] = $data;
+	}
+}
+
+class OPWConnector extends DatabaseConnector
+{
+	/**
+	 * Description
+	 *
+	 * @return array|false
+	 */
+	public function example()
+	{
+		return $this->select('SELECT * FROM table');
 	}
 }
